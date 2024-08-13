@@ -4,8 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import TextField from "./TextField";
-
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
   return (
     <Formik
@@ -37,7 +36,7 @@ export default function Login() {
         height="100vh"
         spacing="1rem"
       >
-        <Heading>Login Page</Heading>
+        <Heading>Register Page</Heading>
         <TextField
           name="username"
           placeholder="enterusername"
@@ -52,9 +51,9 @@ export default function Login() {
         />
         <ButtonGroup pt="1rem">
           <Button colorScheme="teal" type="submit">
-            Login
+            Create Account
           </Button>
-          <Button onClick={() => navigate("/register")}>Create Account</Button>
+          <Button onClick={() => navigate("/")}>Login In</Button>
         </ButtonGroup>
       </VStack>
     </Formik>
