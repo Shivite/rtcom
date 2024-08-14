@@ -1,8 +1,8 @@
 import { Button, ButtonGroup, Heading, VStack } from "@chakra-ui/react";
+import { formSchema } from "@rtcom-app/common";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import TextField from "./TextField";
 export default function Register() {
   const navigate = useNavigate();
@@ -12,20 +12,29 @@ export default function Register() {
         username: "",
         password: "",
       }}
-      validationSchema={Yup.object({
-        username: Yup.string()
-          .required("The user name is required field!")
-          .min(6, "Username is too short")
-          .max(28, "Username can not be too long!"),
+      validationSchema={formSchema}
+      onSubmit={async (values, actions) => {
+        try {
+          const response = await fetch("http://localhost:4000/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+          });
 
-        password: Yup.string()
-          .required("The password is required field!")
-          .min(6, "Password is too short")
-          .max(28, "Password can not be too long!"),
-      })}
-      onSubmit={(values, actions) => {
-        alert(JSON.stringify(values, null, 2));
-        actions.resetForm();
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          const data = await response.json();
+          console.log("Success:", data);
+        } catch (error) {
+          console.error("Error:", error);
+        } finally {
+          // Reset the form
+          actions.resetForm();
+        }
       }}
     >
       <VStack

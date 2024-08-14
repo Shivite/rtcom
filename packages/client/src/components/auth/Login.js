@@ -1,8 +1,8 @@
 import { Button, ButtonGroup, Heading, VStack } from "@chakra-ui/react";
+import { formSchema } from "@rtcom-app/common";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import TextField from "./TextField";
 
 export default function Login() {
@@ -13,17 +13,7 @@ export default function Login() {
         username: "",
         password: "",
       }}
-      validationSchema={Yup.object({
-        username: Yup.string()
-          .required("The user name is required field!")
-          .min(6, "Username is too short")
-          .max(28, "Username can not be too long!"),
-
-        password: Yup.string()
-          .required("The password is required field!")
-          .min(6, "Password is too short")
-          .max(28, "Password can not be too long!"),
-      })}
+      validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
           const response = await fetch("http://localhost:4000/auth/login", {
