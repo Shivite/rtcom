@@ -24,9 +24,28 @@ export default function Login() {
           .min(6, "Password is too short")
           .max(28, "Password can not be too long!"),
       })}
-      onSubmit={(values, actions) => {
-        alert(JSON.stringify(values, null, 2));
-        actions.resetForm();
+      onSubmit={async (values, actions) => {
+        try {
+          const response = await fetch("http://localhost:4000/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+          });
+
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          const data = await response.json();
+          console.log("Success:", data);
+        } catch (error) {
+          console.error("Error:", error);
+        } finally {
+          // Reset the form
+          actions.resetForm();
+        }
       }}
     >
       <VStack
