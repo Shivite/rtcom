@@ -1,13 +1,14 @@
-import { Button, ButtonGroup, Heading, VStack } from "@chakra-ui/react";
+import { Button, ButtonGroup, Heading, Text, VStack } from "@chakra-ui/react";
 import { formSchema } from "@rtcom-app/common";
 import { Form, Formik } from "formik";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 import TextField from "./TextField";
 
 export default function Login() {
   const { setUser } = useContext(AuthContext);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   return (
     <Formik
@@ -30,9 +31,8 @@ export default function Login() {
             throw new Error("Network response was not ok");
           }
           const data = await response.json();
-          console.log(data);
           if (data && !data.loggedIn) {
-            alert(data.status);
+            setError(data.status);
           } else {
             setUser({ ...data });
             navigate("/home");
@@ -53,6 +53,9 @@ export default function Login() {
         spacing="1rem"
       >
         <Heading>Login Page</Heading>
+        <Text as="p" color="red.500">
+          {error}
+        </Text>
         <TextField
           name="username"
           placeholder="enterusername"
