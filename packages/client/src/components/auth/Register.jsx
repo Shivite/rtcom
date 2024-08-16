@@ -1,11 +1,13 @@
 import { Button, ButtonGroup, Heading, VStack } from "@chakra-ui/react";
 import { formSchema } from "@rtcom-app/common";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../AuthContext";
 import TextField from "./TextField";
 export default function Register() {
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
   return (
     <Formik
       initialValues={{
@@ -29,6 +31,9 @@ export default function Register() {
 
           const data = await response.json();
           console.log("Success:", data);
+          if (!data) return;
+          setUser({ ...data });
+          navigate("/home");
         } catch (error) {
           console.error("Error:", error);
         } finally {

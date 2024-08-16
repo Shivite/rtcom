@@ -1,11 +1,13 @@
 import { Button, ButtonGroup, Heading, VStack } from "@chakra-ui/react";
 import { formSchema } from "@rtcom-app/common";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../AuthContext";
 import TextField from "./TextField";
 
 export default function Login() {
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   return (
     <Formik
@@ -23,17 +25,20 @@ export default function Login() {
             },
             body: JSON.stringify(values),
           });
-
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
-
           const data = await response.json();
-          console.log("Success:", data);
+          console.log(data);
+          if (data && !data.loggedIn) {
+            alert(data.status);
+          } else {
+            setUser({ ...data });
+            navigate("/home");
+          }
         } catch (error) {
           console.error("Error:", error);
         } finally {
-          // Reset the form
           actions.resetForm();
         }
       }}
