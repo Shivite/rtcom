@@ -4,7 +4,6 @@ import { AuthContext } from "./AuthContext";
 
 export const UserAuth = () => {
   const { user } = useContext(AuthContext);
-  console.log("setupser---", user);
   return user && user.loggedIn;
 };
 

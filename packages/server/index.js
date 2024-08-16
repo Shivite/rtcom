@@ -17,7 +17,7 @@ const io = socketIo(server, {
 
 app.use(helmet());
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 app.use(
   session({
@@ -26,9 +26,10 @@ app.use(
     resave: true,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.ENVIRONMENT === "production" ? true : "auto",
+      secure: false, // false for development
       httpOnly: true,
-      sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
+      expires: 1000 * 60 * 60 * 7,
+      sameSite: "lax",
     },
   })
 );

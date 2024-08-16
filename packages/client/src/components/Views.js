@@ -1,12 +1,16 @@
-import React from "react";
+import { Text } from "@chakra-ui/react";
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import { AuthContext } from "./AuthContext";
 import Home from "./Home";
 import ProtectedRoutes from "./ProtectedRoute";
-
 const Views = () => {
-  return (
+  const { user } = useContext(AuthContext);
+  return user.loggedIn === null ? (
+    <Text> Loading ....</Text>
+  ) : (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />

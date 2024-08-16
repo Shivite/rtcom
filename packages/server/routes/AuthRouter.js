@@ -4,8 +4,13 @@ const validateFrom = require("../controllers/formValidation");
 const pool = require("../db");
 const bcrypt = require("bcrypt");
 
+router.route("/login").get(async (req, res) => {
+  if (req.session && req.session.user) {
+    res.json({ loggedIn: true });
+  } else res.json({ loggedIn: false });
+});
+
 router.post("/login", async (req, res) => {
-  console.log("session", req.session);
   validateFrom(req, res);
   const potentialLogin = await pool.query(
     "SELECT username, passhash, id FROM users WHERE username = $1",
