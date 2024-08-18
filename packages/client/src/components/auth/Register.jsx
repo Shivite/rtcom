@@ -4,7 +4,8 @@ import { Form, Formik } from "formik";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
-import TextField from "./TextField";
+import TextField from "../common/TextField";
+
 export default function Register() {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);

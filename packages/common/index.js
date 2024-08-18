@@ -12,7 +12,7 @@ const formSchema = Yup.object({
 });
 
 const friendSchema = Yup.object({
-  friendName: Yup.string()
+  friendname: Yup.string()
     .required("Username required")
     .min(6, "Invalid username!")
     .max(28, "Invalid username!"),
