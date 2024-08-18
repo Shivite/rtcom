@@ -17,7 +17,6 @@ import FriendModal from "./FriendModal";
 const Sidebar = () => {
   const { friendList } = useContext(FriendContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log("friendList", friendList);
   return (
     <VStack py="1.4rem">
       <HStack justify="space-evenly" w="100%">

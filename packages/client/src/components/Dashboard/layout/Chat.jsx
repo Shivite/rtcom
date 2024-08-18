@@ -1,4 +1,4 @@
-import { TabPanels, Text, VStack } from "@chakra-ui/react";
+import { TabPanel, TabPanels, Text, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { FriendContext } from "../Home";
 const Chat = () => {
@@ -14,7 +14,9 @@ const Chat = () => {
   ) : (
     <VStack h="100vh" w="100%" justify="center" p="5rem" textAlign="center">
       <TabPanels>
-        <Text>No friend available right now!</Text>
+        <TabPanel>
+          <Text>No friend available right now!</Text>
+        </TabPanel>
       </TabPanels>
     </VStack>
   );

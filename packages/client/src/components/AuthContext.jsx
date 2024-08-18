@@ -11,7 +11,6 @@ const AuthProvider = ({ children }) => {
       credentials: "include",
     })
       .catch((err) => {
-        console.log("err", err);
         setUser({ loggedIn: false });
         return null;
       })
