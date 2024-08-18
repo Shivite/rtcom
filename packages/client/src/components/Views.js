@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import { AuthContext } from "./AuthContext";
-import Home from "./Home";
+import Home from "./Dashboard/Home";
 import ProtectedRoutes from "./ProtectedRoute";
 const Views = () => {
   const { user } = useContext(AuthContext);
