@@ -4,11 +4,6 @@ const Redis = require("ioredis");
 require("dotenv").config();
 const redisClient = new Redis();
 
-const corsConfig = {
-  origin: "http://localhost:3000",
-  credentials: true,
-};
-
 const SessionController = session({
   secret: process.env.COOKIE_SECRET,
   name: "sid",
@@ -22,6 +17,18 @@ const SessionController = session({
     sameSite: "lax",
   },
 });
+
+// const corsConfig = {
+//   origin: "http://localhost:3000",
+//   credentials: true,
+// };
+
+const corsConfig = {
+  origin: "http://localhost:3000", // or the origin of your client
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true,
+};
 
 const wrap = (expressMiddleware) => (socket, next) =>
   expressMiddleware(socket.request, {}, next);

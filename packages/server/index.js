@@ -1,10 +1,9 @@
 const express = require("express");
 const http = require("http");
 const helmet = require("helmet");
-const socketIo = require("socket.io");
-const authRoutes = require("./routes/AuthRouter");
 const cors = require("cors");
-
+const session = require("express-session");
+const { Server } = require("socket.io");
 const {
   SessionController,
   wrap,
@@ -13,26 +12,46 @@ const {
 const app = express();
 const server = http.createServer(app);
 
-const io = socketIo(server, {
+const io = new Server(server, {
   cors: corsConfig,
 });
+
+// Session middleware setup
+app.use(SessionController);
+
+// Middleware setup
 app.use(helmet());
 app.use(express.json());
 app.use(cors(corsConfig));
 
-app.use(SessionController);
+// Import routes
+const authRoutes = require("./routes/AuthRouter");
 
+// Register routes
+app.use("/auth", authRoutes);
+
+// Socket.io middleware
 io.use(wrap(SessionController));
+// io.use((socket, next) => {
+//   // Assume SessionController wraps and sets the session
+//   SessionController(socket.request, {}, next);
+// });
+
+io.on("connection", (socket) => {
+  console.log("New socket connection");
+  // Access session data
+  if (socket.request.session && socket.request.session.user) {
+    console.log("soketId:", socket.id);
+    console.log("User:", socket.request.session.user.username);
+  } else {
+    console.log("No user session found");
+  }
+});
 
 app.get("/", (req, res) => {
   res.send("har har mahadev");
 });
-app.use("/auth", authRoutes);
 
-io.on("connect", (socket) => {
-  console.log("socket", socket.request.session.user.username);
-});
-
-app.listen(4000, () => {
-  console.log("connected at 4000");
+server.listen(4000, () => {
+  console.log("Server running on port 4000");
 });
