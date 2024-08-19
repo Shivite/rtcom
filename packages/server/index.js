@@ -5,10 +5,10 @@ const cors = require("cors");
 const session = require("express-session");
 const { Server } = require("socket.io");
 const {
-  SessionController,
+  SessionMiddleware,
   wrap,
   corsConfig,
-} = require("./controllers/SessionController");
+} = require("./controllers/SessionMiddleware");
 const app = express();
 const server = http.createServer(app);
 
@@ -17,7 +17,7 @@ const io = new Server(server, {
 });
 
 // Session middleware setup
-app.use(SessionController);
+app.use(SessionMiddleware); //Authenticate the user
 
 // Middleware setup
 app.use(helmet());
@@ -26,20 +26,16 @@ app.use(cors(corsConfig));
 
 // Import routes
 const authRoutes = require("./routes/AuthRouter");
+const AutorizeUser = require("./controllers/SessionController");
 
 // Register routes
 app.use("/auth", authRoutes);
 
 // Socket.io middleware
-io.use(wrap(SessionController));
-// io.use((socket, next) => {
-//   // Assume SessionController wraps and sets the session
-//   SessionController(socket.request, {}, next);
-// });
-
+io.use(wrap(SessionMiddleware)); //authenticate user and share session info with socket.io by using express middleware
+io.use(AutorizeUser);
 io.on("connection", (socket) => {
   console.log("New socket connection");
-  // Access session data
   if (socket.request.session && socket.request.session.user) {
     console.log("soketId:", socket.id);
     console.log("User:", socket.request.session.user.username);
