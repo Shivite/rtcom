@@ -35,10 +35,8 @@ app.use("/auth", authRoutes);
 io.use(wrap(SessionMiddleware)); //authenticate user and share session info with socket.io by using express middleware
 io.use(AutorizeUser);
 io.on("connection", (socket) => {
-  console.log("New socket connection");
   if (socket.request.session && socket.request.session.user) {
-    console.log("soketId:", socket.id);
-    console.log("User:", socket.request.session.user.username);
+    console.log("soketUserId:", socket.user.userid);
   } else {
     console.log("No user session found");
   }

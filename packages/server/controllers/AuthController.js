@@ -1,5 +1,6 @@
 const pool = require("../db");
 const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports.handleGetLogin = (req, res) => {
   if (req.session && req.session.user) {
@@ -9,7 +10,7 @@ module.exports.handleGetLogin = (req, res) => {
 
 module.exports.handlePostLogin = async (req, res) => {
   const potentialLogin = await pool.query(
-    "SELECT username, passhash, id FROM users WHERE username = $1",
+    "SELECT username, passhash, userid, id FROM users WHERE username = $1",
     [req.body.username]
   );
   if (potentialLogin.rowCount > 0) {
@@ -20,9 +21,9 @@ module.exports.handlePostLogin = async (req, res) => {
     if (isSamePass) {
       req.session.user = {
         username: potentialLogin.rows[0].username,
+        userid: potentialLogin.rows[0].userid,
         id: potentialLogin.rows[0].id,
       };
-
       res.json({
         loggedIn: true,
         username: req.body.username,
@@ -41,16 +42,16 @@ module.exports.handlePostRegistration = async (req, res) => {
     [req.body.username]
   );
   if (existingUser.rowCount === 0) {
-    // const hashedPass = await bcrypt(req.body.password, 10);
     const hashedPass = await bcrypt.hash(req.body.password, 10);
     const newUserQuery = await pool.query(
-      "INSERT INTO users (username, passhash) VALUES ($1, $2) RETURNING id, username",
-      [req.body.username, hashedPass]
+      "INSERT INTO users (username, passhash, userid) VALUES ($1, $2, $3) RETURNING id, username",
+      [req.body.username, hashedPass, uuidv4()]
     );
     req.session.user = {
       username: newUserQuery.rows[0].username,
+      userid: newUserQuery.rows[0].userid,
       id: newUserQuery.rows[0].id,
-    }; // hold session info. browser cookie is key and value is here.
+    };
     res.json({
       loggedIn: true,
       username: newUserQuery.rows[0].username,

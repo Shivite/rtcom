@@ -8,7 +8,6 @@ module.exports.limitApiRequest = (seconds, limit) => {
       .incr(ip)
       .expire(ip, seconds)
       .exec();
-    console.log(response);
 
     if (response[1] > limit) {
       res.json({ loggedIn: false, status: "maximum requires contineously" });
