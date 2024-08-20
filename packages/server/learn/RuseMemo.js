@@ -1,0 +1,2 @@
+//memoize the result of a function, definitoin of funcion, optimizing performance by recal
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);culating values only when their dependencies change.

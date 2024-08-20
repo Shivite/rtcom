@@ -1,0 +1,11 @@
+static: Default positioning; follows the normal document flow.
+relative: Offset relative to its original position.
+absolute: Positioned relative to the nearest positioned ancestor or the viewport.
+fixed: Positioned relative to the viewport, fixed in place when scrolling.
+sticky: Toggles between relative and fixed based on scroll position.
+
+FLEXBOX: 
+    distribute space among items in a container, even when their size is unknown or dynamic.
+
+    display: none: Hides the element and removes it from the layout.
+visibility: hidden: Hides the element but keeps its space in the layout.

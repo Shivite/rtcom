@@ -9,7 +9,7 @@ import {
   Tabs,
   Text,
   useDisclosure,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { FriendContext } from "../Home";
@@ -17,6 +17,7 @@ import FriendModal from "./FriendModal";
 const Sidebar = () => {
   const { friendList } = useContext(FriendContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  console.log("friend-----", friendList);
   return (
     <VStack py="1.4rem">
       <HStack justify="space-evenly" w="100%">

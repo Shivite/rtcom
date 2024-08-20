@@ -1,0 +1,126 @@
+LOCALIZING: i18next : language transalting. 
+REACT ROUTING: react-router-dom : navigate user to diffrent path and render the component.
+LAZY LOADING: improve performance loading compo when needed.  import {Home} = lazy(()= import("./path"));
+DRAWBACK:  JSX not HTML, Multiple Rendring, SEO chanllanges, Large Ecosystem, complex redux, concillition cause overhead, dependecies management. complex routing.
+HOOKS: function that allow user to use react states or other features in a functional componant without having class.
+
+
+-----------IMPORTANT: -----------
+
+RECONCELLITION: manage & cleanup the side effects of api requires or timmers. we can prevent the unwanted behaviours when components are not longer in dom [abort controller]
+
+LIFE CYCLE METHODS: hooks for the diff phase of a CLC. user can run code on specific points.
+    Class component PHASES 
+        mount => constructor(props, staticGetDerivedStateFromProps(state,props)), render(), componentDidMount()
+        update => getDerivedStateFromProps, ShouldComponentUpdate, render(), getSnapShotBeforeUpdate, componentDidUpdate
+        unmount =>  componenetWillUnmount
+        error => staticGetDeriverStateFromErrors, componentDidCatch
+    Function Component Phase:
+        useEffect(CB, dependencies)  === CDMount, CDUpdate, CWMount, 
+        useState
+        useContext
+        useReducer 
+        useCallback
+        useMemo
+        useRef
+
+REACT FIBER:  react 16, rewrite ALGO for react concillition process. improve the flexibility and efficincy of rendring.
+
+    each component is fibernode repesent single unit of Work. combining fiber node will create FIBER Tree. chnges will happen in particulr fibernode and will update. [ pause, resume, and abort rendering tasks]
+
+    split component in unit of work FIBER NodeJS.
+    Prioritization: priority to ui not not background process.
+    Error Boundaries: catch and handle javascrip error without display fallback ui not errors.
+    Scheduling: determine when and how rendering will be executed
+    useEffect(()=>{ return ()=> { } }[])
+
+SYNTHATIC EVENTS: provide consistant api to write cross browser compatible code. Normalized wrapper around the native event
+const handleClick =() =>{}
+SYNTHATIC EVENT POOLING: SE objects can be reused, and its properties will be reset after handler is called
+
+STYLED `COMPONENT`: use tagged component literals. write css directly to js component as variable, dynamic and component based approch. 
+    Type: component based styling, dynamic S, theme Style
+import styled from 'styled-component'
+    const theme {
+        primary: "blue",
+        secondary: "gray"
+    }
+
+    const Button = styled.button{  in case external style styled(button)`` // create global need to import createGlobalStyle
+        color: ${(props)=>{props.value === 'red' ? "red" : "white"}}
+    }
+    <themeProvider theme={theme}><Button>styled button</Button></themeProvider>
+
+CONCRENT RENDERING: same as reconcillition prio rty, scheduling, interuptible rendring,
+
+VIRTUAL DOM: lightweight in memeory representation of actual DOM, its a treelike structure of node. on initial render react creates a copy of actual dom. and on update create new copy then compare both copies and by using reconcillition add the particula changed nodes in actula DOM. Flexibile app, increase effician, imporove performance.[ CONSUME EXTRA MEMORY BY INCREASE PERFORMANCE] 
+
+
+COMPONENT COMPOSITION: combining multiple component to build a module of feature.  or split a big module to multiple small unit of work which are independent from each other. promote REUSEILITY
+
+HIGHER ORDER COMPONENT: reusability, share logic between comp without change the comp. HOC take component as argument and return a new component with aditional features.
+
+const outerComp = (WrappedComponent) => {
+    return (props)=>{
+            return <WrappedComponent {...this.props} />;
+        }
+    }
+}
+const testcomp = () => {
+    return <h1>test</h1>
+}
+const res = outerComp(testComp)
+
+PURE COMPONENT:  for optimize performance. performs shallow comparission on props and states to avoid the extra rendring. [REACT MEMO] [shouldCompupdate() in pure] -- use react memo for func comp.
+const compName = memo({props})=>{}
+PURE FUCNTIONS: same inputs, always produces the same output. do not dependent on external resources. But impure function does
+
+
+CLOUSERS: a function insinde other function allow the access to variables of that function. it encapsulate the loginc from the other function.
+
+function incCounter(){
+    let count = 0 ;
+    return () => {
+         count++
+        console.log(count);
+    }
+}
+let test = incCounter()
+test(); //1
+test(); //2
+
+BABEL:Convert the jsx to html 
+
+//REDUX: state manag library, having CENTRALIZED STORE, handle predectable states with reducer and actions.
+OFFERs: middleware, time-travel debugging, dev tools.
+STORE: js object , store whole app data, three methods: getState(), despatch(action), subscribe(listenr)
+Actions: js object, represetn events, type 7 payload.
+const increment = { type: 'INCREMENT' };
+const addTodo = { type: 'ADD_TODO', payload: { text: 'Learn Redux' } };
+Reducers: determine how state change in response of action. 
+dispatch: methods send action to store, then passes to reducer.
+Selectors: , filter, or transform data from the store.
+
+Middleware: Redux Thunk & Redux Saga: allow action creator to retrun function instead of objects.enable async actions.
+
+impementattion: Provider, 
+import { Provider } from 'react-redux';
+
+<Provider store={store}>
+  <App />
+</Provider>
+
+
+import { useSelector } from 'react-redux';
+
+const count = useSelector((state) => state.counter);
+
+
+import { useDispatch } from 'react-redux';
+
+const dispatch = useDispatch();
+dispatch({ type: 'INCREMENT' });
+
+
+TESt: unit, integration, e2e
+

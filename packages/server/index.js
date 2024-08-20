@@ -26,7 +26,13 @@ app.use(cors(corsConfig));
 
 // Import routes
 const authRoutes = require("./routes/AuthRouter");
-const AutorizeUser = require("./controllers/SessionController");
+const {
+  AutorizeUser,
+  InitializeUser,
+  AddFriend,
+  DisconnectUser,
+} = require("./controllers/SessionController");
+const { disconnect } = require("process");
 
 // Register routes
 app.use("/auth", authRoutes);
@@ -35,11 +41,11 @@ app.use("/auth", authRoutes);
 io.use(wrap(SessionMiddleware)); //authenticate user and share session info with socket.io by using express middleware
 io.use(AutorizeUser);
 io.on("connection", (socket) => {
-  if (socket.request.session && socket.request.session.user) {
-    console.log("soketUserId:", socket.user.userid);
-  } else {
-    console.log("No user session found");
-  }
+  InitializeUser(socket);
+  socket.on("add_friend", (friendname, cb) =>
+    AddFriend(socket, friendname, cb)
+  );
+  socket.on("disconnect", () => DisconnectUser(socket));
 });
 
 app.get("/", (req, res) => {

@@ -1,0 +1,23 @@
+SEMENTIC HTML: improve document structure
+<header>
+  <nav></nav>
+  <footer>
+    <aside>
+      <section><article></article></section>
+    </aside>
+  </footer>
+</header>
+
+MULTIMEDIA SUPPORT <audio><video>
+GRAPHIC SUPPORT <canvas><svg>
+
+FORM ENHANCEMENTS:  
+    TYPES: email, url, date, time, number
+    ATTRIBUTES: placeholder, required, pattern, autocomplete
+
+OFFLINE STORAGE:
+    LOCAL, SESSION, INDEXED DB
+
+WEB APIS: 
+    geoLocation, webrtc, websockets
+

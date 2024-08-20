@@ -1,0 +1,38 @@
+node js
+event loop
+process.nexttick
+process.setimidiate
+middleware: 
+STREAMS: 
+ERROR HANDLING
+Function curry
+debouncing: 
+CALLBACK HELL ???????????????
+Manage evn varaible
+PACKAGEJSON ROLE:
+SECURE NODE JS Application  e.vn tsl injectio role 
+HANDLING STATES:  
+MICROSERVICE ARCHITECTURE: 
+TEMPLATE LITRALS:
+PROMISESES:
+async/await:
+CHILD PROCESS:
+
+
+
+
+DATABASE:
+EXPLAIN: 
+
+React: 
+disadvantages
+LOCALIZING,
+lazy loading,
+routing
+hooks
+reconcillition,
+lifecycle methods 
+mount => constructor static getderivedstate form props, render, didcomponent mount,
+update => getDerivedStateFromProps, shouldCompupdate, takesnapshotbeforeupdate, didcompupdate, render,
+unmount => willcompunmount
+error: get derived error fromstate, component did catch

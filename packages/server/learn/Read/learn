@@ -1,0 +1,150 @@
+console.log("om namah: shivaye");
+NODE JS: run time server enviroment allow to run js code onserver, built on chrome v8 js engine, handle the async op by its EVEDRIVEN ARCH and NON BLOCKING I/O Op. By using this node can handle multiple concurrent operations by using SINGLE THREADED EVNET LOOP,
+machince not understand javascript. v8 engine compile js code to native machine code.
+
+EVENT LOOP: async func initiate, node js register callback, when async method completed, callback will placed to event queue, Event loop will check queue and execute task one by one,
+
+process.NextTick: schedule exec of CB in next iteration of event loop but before i/o operartions execution. [Executed imidiate after current i/o operations before continue]
+process.setImediate: after the i/o operations [execute in next iteration of EL]
+
+MIDDLEWARE: process req & resp in application. takes (req,res,next) useed for response Modification, error handle, logging. express handle it.
+
+STREAMS: Objects, for large amount data handling [read, write files or large data set]. read S, writeS, duplexS, TransformS
+we can work with the data without preparing the whole dataset, it allow access data in chuncks, benefit Efficient Memory, async processing, Pipelining- create complex data processing pipelines.
+
+const fs = require("fs");
+const readStream = fs.createReadStream("file.txt");
+const wtireStream = fs.createWriteStream("file.txt")
+const pipeStream = readStream.pipe(fs.WriteStream);
+
+ERROR HANDLING
+try catch, async error handling, event emitter [then().error()]
+Comprehensive Error
+fs.readFile('source.txt', 'utf8', (error, data) => {}
+Error MiddlewareArray function errorHandler(err, req, res, next)
+
+Function curry: a fucntion take multiple arguments convert to a series of funcitons.
+function test(a){
+return function (b){
+return function(c){
+return a*b*c;
+}
+}
+}
+let b = test(2)(3)(4)
+console.log(b) //24
+
+DEBOUCING: fucntion with fucntion and TimeRanges, performance with time
+
+CALLBACKS: functions that passes as an argument in other function. and will execute on completion of other funciton.
+
+NPM:
+huge echosystem of libraries.
+
+Scalability:
+support horizontal scaling through clustering , load balancing techniques // ???????????
+
+CALLBACK HELL: multiple nexted callbacks. solution [async await, promisses.]
+
+Manage evn varaible: .env define global variable, require('dotenv').config(), process.env.VAR
+
+PACKAGEJSON ROLE: Metadata, Dependencies, Scripts,
+
+MANAGE DEPENDENCIES: package/package-Lock, docker, env, CI/CD.
+
+HANDLING STATES: user session by redis/database, jwt, cache [redis],
+
+MICROSERVICE ARCHITECTURE: sub task, internal comm with rest or websockets, mock test usage.
+
+TEMPLATE LITRALS: `test${variable}`
+
+PROMISESES: values will be available now, in future or never. 3 state: pending, fulfilll, rejected function .then() .catch() .finally() finally will use regardless of rject or reject what to do.
+
+async/await: syntactic sugar, built on top of promis, handle async operation in syncronious way
+
+CHILD PROCESS: child_process allow to interact with system pocesses. like exec, spawn: create new process.
+
+SECURITY :
+DB:
+Secure Connection Information: use .env
+SQL injection: use placeholder $1 / prameterized query.
+SSL/TLS Encryption: encrypt data transmitted
+Handle Errors Properly
+Limit Database Permissions
+Node:
+Use HTTPS [app.use(helmet());] middleware
+Session Management
+redis [storing critical info]
+cookies [expirations]
+Rate Limiting api calls
+Authentication and Authorization [JWT password]
+Input Validation
+Sanitization sanitizeHtml(userInput);
+Error Handling
+Use Dependency Management Tools [npm audit or npm update]
+
+Identify Performance Bottlenecks
+Logging and monitering [Date.now()]
+Use Profiling Tools [--inspect ] . in database which queries take mostly time
+Database Query Profiling
+Review Asynchronous Operation
+optimize algorithms
+Indexing
+Query Optimization
+Use CDNs: For static asset
+use cache [new NodeCache().set("myKey", "myValue", 10000);]
+
+Prototype: Fundamental Concept, enable inheritance & shared behaviour among the OB. Every func in JS have a prototype property, Which is an OB, that can hold properties and methods. Ther props & methods can be shared by all instace of that fucntion. Prototype is an OB. From which other objects can inharit the properites and methods.
+Prototype Chain: When we try to access property of an method on an object. the js first look in to the object itself and if it do not find the JS will check the object prototype and then prototype's prototype and so on un the chain.
+Inheritance: You can create a new constructor that inherit from other constructors prototype. with es6 we can use class syntax that is a syntatical sugar over js prototype
+
+GETTER & SETTER: Methods, allow us to access or update the properties of object.
+
+OBJECT.DefineProperty: allow define / modify the property of an object.
+Object.defineProperty(person, 'name', {
+value: 'Ravinder Kumar',
+writable: false, // prevents modification of the 'name' property
+enumerable: true, // makes 'name' show up during enumeration (e.g., in a for...in loop)
+configurable: false // prevents deletion or modification of the property's attributes
+});
+
+NODE SESSIONS: install express-session, more secure then browser storage like local/session storage. Secure way to manage and store data on server not browsers.
+
+npm i express-session
+
+const session = require('express-session');
+
+app.use(session({
+secret: "fklsjlafj",
+resave: false,
+saveUninitialized: false,
+store:MongoStore.create{
+mongoUrl: 'MongoDBUrl",
+tts: 14 _ 24_ 60, _60
+},
+cookies:{
+httpOnly: true,
+secure: process.env.NODE_ENV === 'production'.
+maxAge: 1000_ 60 * 60 *24 //4 hours
+}
+
+}))
+
+GRAPHQL: query language for api and a run time to execute query with existing data,develped by facebook.
+It allows clients to request specific data from a single endpoint, reducing over-fetching and under-fetching. With a strongly typed schema, GraphQL defines the structure of data and supports real-time updates through subscriptions
+
+EXPLAIN: powerfull tool, how DB execute queries.
+
+questions:
+How do you handle performance bottlenecks in Node.js applications?
+strategies have you used for scaling Node.js applications?
+Explain the concept of "this" in JavaScript.
+What is event delegation in JavaScript?
+how do you handle unknown exceptions that lead to code breaks?
+which is good for your project ORM or simple query?
+basis JavaScript and string array question
+What are the advantages of using promises instead of callbacks?
+How would you define the term I/O?
+laod balancing and clusturing?
+-> design pattern in react js
+->cercuit designs in react js

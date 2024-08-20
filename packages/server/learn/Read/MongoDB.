@@ -1,0 +1,257 @@
+import { json } from "body-parser"
+
+Consistency, integrity, flexibilty, memory efficiencey, query performance
+
+MongoDB: Document oriented, NoSql DB, store data in flexible JSON like documents. Do not use traditional tables rows, can handle unstructured/semistructured data.
+
+why mongo
+large, evolving, or semi-structured data, like IoT, content management, or real-time analytics.
+no strict structure, validator rule, horizonal scaling, shared, 
+
+data security: TSL/SSL encryption in trasit, Encryption in rest (store encry data in disk- wiredtiger storage engne ), audit for security, RBAC, SCRAM (Salted Chanllage response Authentication machanism), LDAP (light weith dir access protocol), Kerberos [protocol verify user access network resources] & x.509 Certificates entrerprise level security.
+
+
+Kerberos: MongoDB is schema-flexible, not schema-less.
+While you dont define a strict schema, you can apply document validation rules to enforce data structure if needed.
+
+VALDIATION RULES: achieve data integrity and cosistancy in collection schema. Rules specify the structure for doc, Help in prevent incorrect data for insert/update.  
+//create validation 
+db.createCollection({
+    user,{
+        validtor:{
+            $jsonSchema:{
+                bsonType:object,
+                required:["name","age"],
+                properties:{
+                    name:{
+                        bsonType: "String",
+                        description: "Name must be a string and is required."
+                    },
+                    email:...  ,
+                },
+                validateLevel:"strict/modrate",
+                validateError:"error/warn"
+            }
+        }
+    }
+})
+//update validation rules
+db.runCommnad({
+    collMod:"users",
+    validator:{same}
+})
+
+
+BACKUP/tools: mongodump, mongorestore for logical backups or file snapshots for physical, Atlas backup, Ops Manager and custom scripts.
+
+MongoDB PERFORMANCE and health: mongotop, mongostat or MongoDB Atlas tools for performance and health monitoring.
+
+DB OPTIMIZE:
+Index frequently used fields, minimize document size, optimize queries, avoid large array fields, and manage shard keys carefully.
+
+TRANSACTIONS: Execute mulitple operations, ensure atomocity (if all will successed on none do). usefull or maintaing the consistency between documents or collections, Multi-document transactions
+Provide: ACID property: ensure data integrity in case of errors. powerfailue cases also.
+ATOMOCITY: all or nothing,  If any part of the transaction fails, the entire transaction is rolled back, and the database remains unchanged. Atomicity ensures partial changes are not saved.
+CONSISTENCY: Transaction brings the database from one state to other based on some rules and constraints. if it fails in this rules the trancsaction is rollled back.
+ISOLATION: the partial results of one trasactins are hidden from ohter
+DURABILTY: one transaction commited will be stored parmanently.
+
+
+
+ONE TO MANY:
+embeded document: nest related data within a doc.
+multiple sub document in a single document. easy access, fast retrival for small data,
+post and commment 
+
+refrence : Referenced documents use unique IDs to link separate documents.
+each document have refrence of other document. 
+user and orders
+user have order ids as array 
+orderIds: [
+    ObjectId("64f3b5b06f129d57dc57458a"),
+    ObjectId("64f3b5b06f129d57dc57458b")
+  ]
+Order has its field with same order id multiple records.
+
+ONE TO ONE: Same but single record not array
+
+MANY TO MANY:  multiple documents in one collection are associated with multiple documents in another collection.
+student and courses having both ids in third collection enrollments
+
+db.enrollments.aggregate([
+    {$match:{studentid: ObjectId("25character hexadecimal number")}},
+    {
+        $lookup:{
+            from:"courses",
+            localField: "courseId",
+            forginField:"_id",
+            as: courses
+        }
+    }
+])
+Mongo Document and Diff Relational: Record, Store data in json, [BSON] BINARY JSON.
+Computer Data Interchange Format, represent data structure.
+Allow fields differ between records in same collection.
+
+COLLECTIONS & diff sql: Analogous table, without fixed schema.  Allow flexibity in structure of documents within it.
+
+DATA TYPES: String, Number(int,long,dobule,decimal), Boolean, date, array, Objet (embedded document), null, objetId, among others.
+objetId: Unique Identifier - 12-byte identifier - 24-character hexadecimal string,
+ default _id field
+4 bytes created timestamp, 5 bytes random value unique to machine and process, 3 bytes: incrementing counter
+
+embedded doc: Sub Documents in a single document. comments in post
+
+  
+
+PRIME FEATURES: schema flexibility, horizontal scalability (sharding), indexing, rich query language, replication, and support for aggregation and map-reduce operations.
+
+HORIZONTAL SCALABILITY: achieved by Sharding technique, split/distribute data across multiple servers/Nodes.
+Benefits: Improve Performance, storage capicity. handling larger datasets and higher throughput by distributing the workload across multiple machines.
+
+SHARED: A subset of data in DB (can be a replica) with  SHARD KEY.
+CONFIG SERVER: store meta data and config info of shared 
+QUERY ROUTERS (MONGOS): Route client request to shared. MONGOS instance is what application connects to.
+
+Process: Mongos splits data in chuncks and allocated on mulitple shards based on shared key.
+when query sent to mongo Router, determine which shard contain relevant data, direct query efficency, reduce unnecessary data retrival.A
+//shell
+sh.enableSharding("DBname");
+//choose define shared collection
+sh.sharedCollection("dbname.users",{userId:"hashed"})
+userId field is used as a hashed shard key 
+
+REPLICATION: copy data on multiple servers, cause redundancy, automatic failover, and backup capabilities.
+Primary: Receives all write operations.
+Secondary: Replicates data from the primary.
+Arbiter: Participates in elections without storing data, helping decide primary in failover.
+
+INDEXING: technique improve query performance, to quickly locate documents in a collection,  
+efficient search strategy making data retrieval much faster.
+
+best practices for indexing: 
+1 use indexes on frequent query fields.
+2 always moniter the index size [must be small large size performance issues]
+3 not perform indexes on frequently updated fields
+
+
+TYPES:
+SINGLE FIELD INDEXING:  db.users.createIndex({username: 1}) . // 1for ascending -1 desc.
+COMPOUND INDEXING:   db.users.createIndex({username:1, email:1});
+MULTIKEY: db.users.createIndex({tags:1}) // used for arrays can index each value in array.
+TEXT:  db.users.createIndex({description:text})
+HASHED: db.users.createIndex({userId:"hashed"})
+GEOSPATIAL: //Enables querying location-based data. Supports 2D and 2DSphere indexes.. 
+db.place.createIndex({location: "2dsphere"})
+
+OPTIONS: location the document in collections.
+UNIQUE: with uniqueness.  // db.users.createIndex({email:1},{unique:true});
+SPARES: on document with index key. if not index key then skip.
+TTL: with expiration time seconds // db.users.createIndex({userI:1},{expireAfterSeconds: 36000});
+PARTIAL: with specific condition // db.products.createIndex({price:1},{partialFilterExpression:{price:{$gt:100}}})
+
+SEE INDEX:  db.users.getIndexes();
+DROP: db.users.dropIndexes("username_1")
+
+
+IMPECTS:
+Improved Query Performance : querying faster, reducing amount of data has to scan.
+Memory Usage: Indexes require additional storage and memory, so avoid creating unnecessary indexes.
+Slower Write Operations: Each index must be updated during insert, update, and delete operations, which can slow down these operations.
+
+
+RICH QUERY LANGUAGE
+
+key operators/Comparison Operators: 
+$eq, $ne: 
+$gt, $gte, $lt, $lte:
+$in, $nin: 
+
+Logical Operators: 
+$and: Matches all conditions
+$or: Matches any condition
+$not: Negates a condition
+$nor: Matches if none of the conditions are met
+    // db.users.find($or:[{age:{$gt:25}},{role:'admin'}])
+
+Element Operators:
+$exists: Checks if a field exists
+$type: Matches a specific BSON data type
+    // db.collection.find({email:{$exists:true}})
+Array Query Operator
+$all: Matches arrays that contain all specified elements
+$size: Matches arrays by length
+$elemMatch: Matches documents with array elements that match all specified criteria
+//db.user.find({tags:{$all:['ravinder','sharma']}})
+//db.user.find({tags:{$size:2}})
+
+Evaluation Operators:
+$regex: Matches values against a regular expression
+$text: Performs full-text search within text indexes
+$where: Allows JavaScript expressions for conditional matching (not recommended for performance reasons)
+// db.articles.find({ content: { $regex: /mongodb/i } });
+// db.products.find({ $text: { $search: "fast laptop" } });
+
+
+Aggregation: powerful tools for transforming and analyzing data. data processing through stages like $match, $group, and $sort
+$match, $group, $sort, $project, $limit, $skip
+
+db.orders.aggregate([
+    {$match:{status:"completed"}},
+    {$group:{_id:"$custId", totalAmt:{$sum:"$amount"}}},
+    {$sorl:{totalAmt:-1}}
+]
+)
+
+GEO SPATIAL :
+$near, $geoWithin, $geoIntersects
+
+Update Operators
+$set, $inc, $unset: Update, increment, and remove fields
+$push, $pop, $pull, $addToSet: Manipulate arrays within documents
+
+db.product.updateOne({
+    name:"laptop",$set:{price:'180'}
+})
+db.product.updateOne({
+    name:"laptop",$set:{$inc:{stock:-1}}
+})
+
+db.user.aggregate({
+    $and:[
+        {status: 'active'},
+        {"purchase.amount": {$gt: 100}},
+        {"purchase.date":{$gte: new ISODate('2024-09-01')}}
+    ]
+})
+
+Query:
+insertOne, insertMany, updateOne,updateMany, replaceOne,  deleteOne, deleteMany, find
+
+MAP REDUCE: batch processing of large datasets.,  data processing technique for aggregation task, It breaks down the process 
+Map: apply a func to each doc of collection, output key value parseInt.
+Reduce: combine the values for same key
+
+INDEX key limit: 1024 byte, exceed limt cause performance issues.
+
+
+Questions:
+Explain MongoDB transactions. When would you use transactions, and how do they work?
+Transactions allow multi-document ACID operations. Use them when operations need consistency across multiple documents, such as financial transfers.
+
+How would you handle schema migrations in MongoDB?
+Use versioned schema changes, embed or update documents gradually, and deploy scripts to update collections over time.
+
+How would you handle a high number of write operations in MongoDB?
+Use replica sets for redundancy, implement sharding for load distribution, and configure write concerns based on priority.
+
+Migrate sql to no sql: Map tables to collections, transform relational rows to JSON documents, and establish relationships using embedding or referencing.
+
+Explain how you would implement access control for a MongoDB database with different user roles.
+Use MongoDB’s role-based access control (RBAC) to create roles like read-only, read-write, and admin, assigning them to users based on permissions.
+
+How can you encrypt data in MongoDB at rest and in transit?
+Enable encryption at rest through storage engine encryption options, and use TLS/SSL to encrypt data in transit.
+
+PRofiling tool collect data on qury that exceed threshold execution time.
+db.setProfilingLevel(1, { slowms: 50 });

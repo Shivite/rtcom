@@ -1,0 +1,116 @@
+// Start a session ...Transaction, ...Session REVIEW ACID
+const session = db.getMongo().startSession();
+
+try {
+    // Start transaction
+    session.startTransaction();
+
+    // 1. Deduct $200 from Alice's account
+    db.accounts.updateOne(
+        { _id: 1 },
+        { $inc: { balance: -200 } },
+        { session }
+    );
+
+    // 2. Add $200 to Bob's account
+    db.accounts.updateOne(
+        { _id: 2 },
+        { $inc: { balance: 200 } },
+        { session }
+    );
+
+    // Commit the transaction
+    session.commitTransaction();
+    print("Transaction committed.");
+} catch (error) {
+    // Abort the transaction if an error occurs
+    session.abortTransaction();
+    print("Transaction aborted due to an error: " + error);
+} finally {
+    // End the session
+    session.endSession();
+}
+
+
+db.users.find({ username: "raivnder" }, { age: { $gte: 18 } });  // >=
+//index on aboce query is
+db.users.createindex({ username: 1, age: 1 });
+if will check the user with name ravinder and then filter with age
+
+// LOGICAL
+db.users.find($or:[{age:{$gt:25}},{role:'admin'}])
+
+//ELEMENT OP
+db.collection.find({email:{$exists:true}})
+
+//Array query expression
+db.users.find({tags:{$all:['ravinder', 'admin']}})
+db.users.find({tags:{$size:2}})
+
+Evaluation Operators
+db.articles.find({ content: { $regex: /mongodb/i } });
+db.products.find({ $text: { $search: "fast laptop" } });
+
+Aggregation:
+// get all completed order from order table with cusomer id and sum of all orders amount, and the lowest ammount first
+
+db.orders.aggregate([
+    {$match:{status:"completed"}},
+    {$group:{_id:"$custId", totalAmt:{$sum:"$amount"}}},
+    {$sorl:{totalAmt:-1}}
+]
+)
+
+// find active users who have purchased a product costing more than $100 in the last month:
+
+db.users.find({
+    $and:[
+        {status:'active'},
+        {"purchases.amount":{$gt: '$100'}},
+        {"purchases.date":{$gte: new ISODate("2024-09-01")}},
+        $or:[
+            {status:"active"},
+            {age:{$gt:20}}
+        ]
+    ]
+})
+db.user.find({$tags:{$all:[]'ravinder','ragah'}})
+
+db.product.updateOne({
+    name:"laptop",$set:{$inc:{stock:-1}} . // $set(price:"$100")
+})
+
+//find orders price > 100, status: active, purchased in lasst month
+db.orders.aggregate({
+    $and:[
+        {status:"active"},
+        {price:{$gt:100}},
+        {purchasedDate: {$gte: new ISODate("2034-09-01")}}
+    ]
+})
+
+
+db.setProfilingLevel(1,{sloms:3000})
+
+
+
+let currentPage = 1;
+let pageSize = 10;
+let skiper = (currentPage-1)*pageSize;
+
+let totalrec = await db.employees.countDocument();
+
+let res = await .db.employee.find()
+.sort(id:1)
+.skipt(skiper)
+.limit(pageSize)
+.toArray()
+
+
+res.json({
+    totalPages : totalrec,
+    res,
+    currentPage,
+    totalPages: Math.ceil(totalrec/pageSize)
+
+})
