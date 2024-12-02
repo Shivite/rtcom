@@ -133,6 +133,16 @@ maxAge: 1000_ 60 * 60 *24 //4 hours
 GRAPHQL: query language for api and a run time to execute query with existing data,develped by facebook.
 It allows clients to request specific data from a single endpoint, reducing over-fetching and under-fetching. With a strongly typed schema, GraphQL defines the structure of data and supports real-time updates through subscriptions
 
+LET VAR CONST: for declare variable. but choice to use is depend on scope, re-declration, re assignment and use cases.
+
+var: function scope, can redeclare, hoisted with undefined value. // No errors
+let: block scope, used inside the block its definced, can't redeclare in same scope, value may change, thorow error if accessed before initializaiton.
+const: fixed values, thorow error if accessed before initializaiton.
+
+Clouser: function that retain access to its lexical scope even when function executed outside of its defining scope.
+
+THIS: keyword, in global context it represent global object like window. in function this depends on the way function has been called. Arrow function: this can be inherit from its laxical scope, regular function refrer global object but in strict mode this is undefined. in case of object it represt object itself. In event handlers this refers to dom element like button.
+
 EXPLAIN: powerfull tool, how DB execute queries.
 
 questions:
