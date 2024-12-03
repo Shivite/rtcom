@@ -3,11 +3,16 @@ NODE JS: run time server enviroment allow to run js code onserver, built on chro
 machince not understand javascript. v8 engine compile js code to native machine code.
 
 EVENT LOOP: async func initiate, node js register callback, when async method completed, callback will placed to event queue, Event loop will check queue and execute task one by one,
+call stack: datastructure track functions. push new function and pop off completed one.
+apicalls: any request that will take tome to be process and having a callback associated with it. on commpletioin of async mehtod the callback will passed to event queue,
+Micro process task hapens on it like it will check for pormise functions like .then or catch
+event loop continuesly check this event queue and operate operation one by one.
 
 process.NextTick: schedule exec of CB in next iteration of event loop but before i/o operartions execution. [Executed imidiate after current i/o operations before continue]
 process.setImediate: after the i/o operations [execute in next iteration of EL]
 
-MIDDLEWARE: process req & resp in application. takes (req,res,next) useed for response Modification, error handle, logging. express handle it.
+MIDDLEWARE: func that execute during lifecycle of http request. it can manipulate the req & resp objects. execute code, make changes to response and end req resp cycle. type
+app-level-middleware, route-level, custom middleware, thirdparty, error handling.
 
 STREAMS: Objects, for large amount data handling [read, write files or large data set]. read S, writeS, duplexS, TransformS
 we can work with the data without preparing the whole dataset, it allow access data in chuncks, benefit Efficient Memory, async processing, Pipelining- create complex data processing pipelines.
@@ -43,6 +48,10 @@ huge echosystem of libraries.
 
 Scalability:
 support horizontal scaling through clustering , load balancing techniques // ???????????
+HS: includes adding multiple instances of an app to distribute the workload on multiple core cpu's of a server. clustring : utilize multiple cores of a single machine efficiently.
+
+LB TEch: process of distributing the incoming network trafic to multiple instaces of the network. ensuring high availibility, relibelity and performance. type round robin, least connections, least response time, IP Hashses,
+Software-Based Load Balancers:NGINX, HAProxy, Apache HTTP Server
 
 CALLBACK HELL: multiple nexted callbacks. solution [async await, promisses.]
 
@@ -84,7 +93,18 @@ Error Handling
 Use Dependency Management Tools [npm audit or npm update]
 
 Identify Performance Bottlenecks
-Logging and monitering [Date.now()]
+
+throught put time (request per second)
+response time (help to check in latency)
+memory, disk, cpu memory usage, top, htop, iotop
+Databse query execution time []
+use tools like new relic, aws cloudwatch
+Logging and monitering [Date.now()] or by elastic search
+use devtools for perfomance issues. Google Lighthouse, Chrome DevTools,
+Incpect database:
+slow queries [explain, analyze]
+indexing issue or in efficient indexing.
+
 Use Profiling Tools [--inspect ] . in database which queries take mostly time
 Database Query Profiling
 Review Asynchronous Operation

@@ -1,7 +1,7 @@
 // react memo: HOC, optimize func comp by memoizing them, render only when props will change. Improve performance by avoin unwanted extra renders,Usefull in case of pure comp : same input same output.
 const myComp = react.memo((props) => {
   return <>test</>;
-});
+});length;
 // if default comparision is not enough then we can do
 
 const mycomp = react.memo(
@@ -12,7 +12,7 @@ const mycomp = react.memo(
 );
 
 //Offline Storage:
-// Local storage : store the date that can be persist after browser close / refresh
+// Local storage : store the date that can be persist after browser close / refresh, use by the browser only
 localstorage.getItem("key");
 localstorage.setItem("key", "value");
 localStorage.removeItem("key");
@@ -64,3 +64,7 @@ const test = testPromise
 // Array: [2, 3, 6, 7]
 // Target Sum: 7
 // Output: [[2, 2, 3], [7]]
+
+agile methodology, 
+strict mode in react and js
+
