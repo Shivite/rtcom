@@ -49,7 +49,7 @@ const testPromise = new Promise((resolve, reject) => {
     reject("reject");
   }
 });
-
+//runcases
 const test = testPromise
   .then((res) => {
     console.log("respose---", res);
