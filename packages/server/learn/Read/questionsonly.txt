@@ -37,3 +37,7 @@ mount => constructor static getderivedstate form props, render, didcomponent mou
 update => getDerivedStateFromProps, shouldCompupdate, takesnapshotbeforeupdate, didcompupdate, render,
 unmount => willcompunmount
 error: get derived error fromstate, component did catch
+
+Javascirpt:
+https://protechstack.com/interview/javascript-interview-questions?gad_source=1&gclid=CjwKCAiA65m7BhAwEiwAAgu4JKVIsUApUwMgN0Nqn0pUHm4d4faVG01FpOuj7GsJcmZQmYEzktvQUBoCtyQQAvD_BwE
+scope > 
