@@ -67,4 +67,9 @@ const test = testPromise
 
 agile methodology, 
 strict mode in react and js
-
+find max element from array which have nested arrays
+prime numbers
+factorial
+revese string
+palindrom
+fibonacii series with and without recurssion
