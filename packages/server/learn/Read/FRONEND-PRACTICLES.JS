@@ -58,12 +58,18 @@ const test = testPromise
     console.log("error----", err);
   });
 
+  // title case
+    let res = str.split(" ").map(word=> word[0].toUpperCase() + word.slice(1)).join(" ");
+
 // Input: arr[] = {10, 22, 28, 29, 30, 40}, k = 54
 // Output: 22 and 30
 
 // Array: [2, 3, 6, 7]
 // Target Sum: 7
 // Output: [[2, 2, 3], [7]]
+
+sort any array 
+let res = data.slice().sort((a,b)=> a.age - b.age)
 
 agile methodology, 
 strict mode in react and js
@@ -73,3 +79,7 @@ factorial
 revese string
 palindrom
 fibonacii series with and without recurssion
+factorial
+stringfy: json data to stringfy
+parse: convert from json string to javascript Object.
+palindrom number
