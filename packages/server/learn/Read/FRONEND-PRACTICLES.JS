@@ -82,4 +82,7 @@ fibonacii series with and without recurssion
 factorial
 stringfy: json data to stringfy
 parse: convert from json string to javascript Object.
-palindrom number
+palindrom number [with or without inbuilt functions]
+practical 
+would implement a linked list with methods to insert a node at the beginning, end, and at specific positions. Then, I would delete a node from a given position.  
+Implement a function that flattens a nested array in JavaScript, converting it into a single-level array. 
