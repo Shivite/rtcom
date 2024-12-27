@@ -86,3 +86,7 @@ palindrom number [with or without inbuilt functions]
 practical 
 would implement a linked list with methods to insert a node at the beginning, end, and at specific positions. Then, I would delete a node from a given position.  
 Implement a function that flattens a nested array in JavaScript, converting it into a single-level array. 
+Write a function that determines if two strings are anagrams of each other  
+Create a JavaScript function that returns the Fibonacci sequence up to a given number, utilizing memoization for optimized performance. 
+Given an array of numbers, write a function to find the largest and smallest numbers in the array. 
+Write a function that takes an array of integers as input and returns a new array with only the unique elements. 
