@@ -90,3 +90,6 @@ Write a function that determines if two strings are anagrams of each other
 Create a JavaScript function that returns the Fibonacci sequence up to a given number, utilizing memoization for optimized performance. 
 Given an array of numbers, write a function to find the largest and smallest numbers in the array. 
 Write a function that takes an array of integers as input and returns a new array with only the unique elements. 
+Write a function that takes an array of integers as input and returns a new array with only the unique elements. 
+
+
