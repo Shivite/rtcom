@@ -16,6 +16,7 @@ import RuseRef from "./learn/RuseRef";
 import Tesst from "./learn/tesst";
 import Rmemo from "./learn/Rmemo";
 import ProtectedRoutes from "./ProtectedRoute";
+import Hoc from "./learn/Hoc";
 const Views = () => {
   const { user } = useContext(AuthContext);
   return user.loggedIn === null ? (
@@ -37,6 +38,7 @@ const Views = () => {
       <Route path="/RuseLayoutEffect" element={<RuseLayoutEffect />} />
       <Route path="/RuseDebugValue" element={<RuseDebugValue />} />
       <Route path="/Rmemo" element={<Rmemo />} />
+      <Route path="/hoc" element={<Hoc />} />
       <Route element={<ProtectedRoutes />}>
         <Route path="/home" element={<Home />} />
       </Route>
